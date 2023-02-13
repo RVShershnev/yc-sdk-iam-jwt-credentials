@@ -1,5 +1,4 @@
-﻿using Yandex.Cloud.Resourcemanager.V1;
-using Yandex.Cloud;
+﻿using Yandex.Cloud;
 using System.Text.Json;
 
 namespace YandexCloud.IamJwtCredentials.Demo
