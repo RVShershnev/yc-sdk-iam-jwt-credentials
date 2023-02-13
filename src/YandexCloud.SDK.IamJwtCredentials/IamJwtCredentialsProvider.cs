@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using Yandex.Cloud.Credentials;
 using Yandex.Cloud.Iam.V1;
 
-namespace YandexCloud.Sdk.IamJwtCredentials
+namespace YandexCloud.IamJwtCredentials
 {
     public class IamJwtCredentialsProvider : ICredentialsProvider
     {
@@ -24,6 +24,10 @@ namespace YandexCloud.Sdk.IamJwtCredentials
             _pemCertificate = pemCertificate;
             _tokenService = TokenService();
         }
+
+        public IamJwtCredentialsProvider(IamJwtCredentialsConfiguration configuration)
+            : this(configuration.ServiceAccountId, configuration.Id, configuration.PrivateKey) { }
+        
 
         public IamJwtCredentialsProvider(string serviceAccountId, string keyId, string pemCertificate,
             IamTokenService.IamTokenServiceClient tokenService)
