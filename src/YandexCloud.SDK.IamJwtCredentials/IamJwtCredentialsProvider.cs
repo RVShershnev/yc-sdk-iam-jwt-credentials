@@ -1,4 +1,4 @@
-﻿using Grpc.Core;
+﻿using Grpc.Net.Client;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
@@ -9,7 +9,7 @@ namespace YandexCloud.IamJwtCredentials
 {
     public class IamJwtCredentialsProvider : ICredentialsProvider
     {
-        private const string IamApiCloud ="iam.api.cloud.yandex.net:443";
+        private const string IamApiCloud = "iam.api.cloud.yandex.net";
 
         private readonly string _keyId;
         private readonly string _pemCertificate;
@@ -27,7 +27,6 @@ namespace YandexCloud.IamJwtCredentials
 
         public IamJwtCredentialsProvider(IamJwtCredentialsConfiguration configuration)
             : this(configuration.ServiceAccountId, configuration.Id, configuration.PrivateKey) { }
-        
 
         public IamJwtCredentialsProvider(string serviceAccountId, string keyId, string pemCertificate,
             IamTokenService.IamTokenServiceClient tokenService)
@@ -50,9 +49,9 @@ namespace YandexCloud.IamJwtCredentials
             return _iamToken.IamToken;
         }
 
-        private IamTokenService.IamTokenServiceClient TokenService()
+        private static IamTokenService.IamTokenServiceClient TokenService()
         {
-            var channel = new Grpc.Core.Channel(IamApiCloud, new SslCredentials());
+            var channel = GrpcChannel.ForAddress($"https://{IamApiCloud}");
             return new IamTokenService.IamTokenServiceClient(channel);
         }
 
@@ -72,7 +71,7 @@ namespace YandexCloud.IamJwtCredentials
             var descriptor = new SecurityTokenDescriptor
             {
                 Issuer = _serviceAccountId,
-                Audience = "https://iam.api.cloud.yandex.net/iam/v1/tokens",
+                Audience = $"https://{IamApiCloud}/iam/v1/tokens",
                 IssuedAt = now,
                 NotBefore = now,
                 Expires = now.AddMinutes(60),
@@ -81,7 +80,5 @@ namespace YandexCloud.IamJwtCredentials
 
             return handler.CreateToken(descriptor);
         }
-
-
     }
 }
