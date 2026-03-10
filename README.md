@@ -1,6 +1,6 @@
 # Yandex.Cloud SDK (C#) Iam JWT Token
 
-Данный пакет является альтернативой OAuth Token или JWT с помощью пакета BouncyCastle __*__  
+Данный пакет является альтернативой OAuth Token или JWT, реализованный с помощью пакета BouncyCastle __*__  
 Ссылка на официальный пакет  [Yandex.Cloud SDK](https://github.com/yandex-cloud/dotnet-sdk).  
 Ссылка на сайт с документацией [Получение IAM-токена для сервисного аккаунта](https://cloud.yandex.ru/docs/iam/operations/iam-token/create-for-sa).
 
